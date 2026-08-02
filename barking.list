@@ -58,22 +58,9 @@ DOMAIN-SUFFIX,wiley.com
 DOMAIN-SUFFIX,worldbank.org
 DOMAIN-SUFFIX,worldscientific.com
 # > For Babies' Rules
-#PROCESS-NAME,News
-#USER-AGENT,AppleNews*
-#USER-AGENT,com.apple.news*
-#DOMAIN,gspe1-ssl.ls.apple.com
 DOMAIN-KEYWORD,dilidili
 DOMAIN-KEYWORD,automationanywere
 # > barking
 DOMAIN-SUFFIX,crhnode.top
-#DOMAIN-KEYWORD,nintendo
-#DOMAIN-KEYWORD,gameloft
 DOMAIN-KEYWORD,jhlyi7tfyi7tghg
 DOMAIN-KEYWORD,emby
-DOMAIN-KEYWORD,sogou
-DOMAIN-KEYWORD,xiaohongshu
-# > PayPal
-USER-AGENT,PayPal*
-DOMAIN-SUFFIX,paypal.com
-DOMAIN-SUFFIX,paypal.me
-DOMAIN-SUFFIX,paypalobjects.com
