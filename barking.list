@@ -5,7 +5,6 @@ DOMAIN-KEYWORD,sci-hub,🐶 狗叫
 DOMAIN,scholar.google.com,🐶 狗叫
 DOMAIN-SUFFIX,acs.org,🐶 狗叫
 DOMAIN-SUFFIX,aip.org,🐶 狗叫
-@ -21,13 +9,19 @@ DOMAIN-SUFFIX,ascelibrary.org,🐶 狗叫
 DOMAIN-SUFFIX,asm.org,🐶 狗叫
 DOMAIN-SUFFIX,asme.org,🐶 狗叫
 DOMAIN-SUFFIX,astm.org,🐶 狗叫
@@ -23,7 +22,6 @@ DOMAIN-SUFFIX,els-cdn.com,🐶 狗叫
 DOMAIN-SUFFIX,elsevier.com,🐶 狗叫
 DOMAIN-SUFFIX,emerald.com,🐶 狗叫
 DOMAIN-SUFFIX,endnote.com,🐶 狗叫
-@ -55,12 +49,17 @@ DOMAIN-SUFFIX,ovid.com,🐶 狗叫
 DOMAIN-SUFFIX,oxfordartonline.com,🐶 狗叫
 DOMAIN-SUFFIX,oxfordbibliographies.com,🐶 狗叫
 DOMAIN-SUFFIX,oxfordmusiconline.com,🐶 狗叫
@@ -38,7 +36,6 @@ DOMAIN-SUFFIX,sciencedirect.com,🐶 狗叫
 DOMAIN-SUFFIX,scitation.org,🐶 狗叫
 DOMAIN-SUFFIX,siam.org,🐶 狗叫
 DOMAIN-SUFFIX,spiedigitallibrary.org,🐶 狗叫
-@ -69,19 +68,10 @@ DOMAIN-SUFFIX,springerlink.com,🐶 狗叫
 DOMAIN-SUFFIX,tandfonline.com,🐶 狗叫
 DOMAIN-SUFFIX,un.org,🐶 狗叫
 DOMAIN-SUFFIX,uni-bielefeld.de,🐶 狗叫
