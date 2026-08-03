@@ -86,6 +86,16 @@ def merge_rule_lines(contents: list[str]) -> list[str]:
     return merged
 
 
+def normalize_rule_line(line: str) -> str:
+    if line.upper().startswith("PROCESS-NAME,"):
+        return f"USER-AGENT,{line.split(',', 1)[1]}"
+    return line
+
+
+def should_append_policy_group(line: str) -> bool:
+    return line.rpartition(",")[2].strip().lower() != "no-resolve"
+
+
 def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
     grouped: dict[str, list[str]] = {}
     claimed: set[str] = set()
@@ -94,10 +104,11 @@ def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
         merged = merge_rule_lines([fetcher(source) for source in sources])
         filtered: list[str] = []
         for line in merged:
+            line = normalize_rule_line(line)
             if line in claimed:
                 continue
             claimed.add(line)
-            filtered.append(f"{line},{group}")
+            filtered.append(f"{line},{group}" if should_append_policy_group(line) else line)
         grouped[group] = filtered
 
     return grouped

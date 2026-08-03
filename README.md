@@ -9,6 +9,8 @@ This repository maintains aggregated proxy rulesets and the automation used to r
 
 Each generated rule ends with its full policy group name, including the emoji.
 For example: `DOMAIN-SUFFIX,example.com,🛑 广告拦截`.
+Rules ending in `no-resolve` are left unchanged, and `PROCESS-NAME` rules are
+emitted as `USER-AGENT` rules.
 
 ## Local rebuild
 

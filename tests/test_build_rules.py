@@ -58,6 +58,7 @@ ruleset=🌍 全球代理,https://example.com/global.list
                 "DOMAIN-SUFFIX,keep-direct.com\n"
                 "DOMAIN-SUFFIX,shared.com\n"
                 "IP-CIDR,192.0.2.0/24,no-resolve\n"
+                "PROCESS-NAME,ExampleApp\n"
             ),
             "https://example.com/ads.list": "DOMAIN-SUFFIX,shared.com\nDOMAIN-SUFFIX,keep-ads.com\n",
             "https://example.com/global.list": "DOMAIN-SUFFIX,shared.com\nDOMAIN-SUFFIX,keep-global.com\n",
@@ -70,7 +71,8 @@ ruleset=🌍 全球代理,https://example.com/global.list
             [
                 "DOMAIN-SUFFIX,keep-direct.com,🎯 全球直连",
                 "DOMAIN-SUFFIX,shared.com,🎯 全球直连",
-                "IP-CIDR,192.0.2.0/24,no-resolve,🎯 全球直连",
+                "IP-CIDR,192.0.2.0/24,no-resolve",
+                "USER-AGENT,ExampleApp,🎯 全球直连",
             ],
         )
         self.assertEqual(

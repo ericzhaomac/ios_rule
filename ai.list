@@ -26,9 +26,9 @@ DOMAIN-SUFFIX,openaicom.imgix.net,🤖 AI 服务
 DOMAIN-SUFFIX,stripe.com,🤖 AI 服务
 DOMAIN-SUFFIX,turn.livekit.cloud,🤖 AI 服务
 DOMAIN-KEYWORD,openai,🤖 AI 服务
-IP-CIDR,24.199.123.28/32,no-resolve,🤖 AI 服务
-IP-CIDR,64.23.132.171/32,no-resolve,🤖 AI 服务
-IP-ASN,20473,no-resolve,🤖 AI 服务
+IP-CIDR,24.199.123.28/32,no-resolve
+IP-CIDR,64.23.132.171/32,no-resolve
+IP-ASN,20473,no-resolve
 DOMAIN,cdn.usefathom.com,🤖 AI 服务
 DOMAIN-SUFFIX,anthropic.com,🤖 AI 服务
 DOMAIN-SUFFIX,claude.ai,🤖 AI 服务
