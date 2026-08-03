@@ -1,0 +1,177 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+import argparse
+import json
+import os
+
+
+ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_SOURCE_URL = (
+    "https://gist.githubusercontent.com/ericzhaomac/46caca8a5f226a7b7a9abbec79aba95f/raw/msub.ini"
+)
+DEFAULT_OUTPUT_BASE_URL = "https://raw.githubusercontent.com/ericzhaomac/ios_rule/main"
+DEFAULT_AGGREGATED_CONFIG = ROOT / "msub_aggregated.ini"
+DEFAULT_RULESETS_DOC = ROOT / "RULESETS.md"
+
+RULESET_SLUGS = {
+    "🎯 全球直连": "direct",
+    "🛑 广告拦截": "advertising",
+    "📲 电报消息": "telegram",
+    "🤖 AI 服务": "ai",
+    "🎬 流媒体": "streaming",
+    "🇬🇧 BBC": "bbc",
+    "🇹🇼 巴哈姆特": "bahamut",
+    "🍎 苹果服务": "apple",
+    "🐶 狗叫": "barking",
+    "🌍 全球代理": "global",
+    "🇨🇳 中国代理": "china",
+}
+
+
+@dataclass
+class ParsedMsub:
+    original_lines: list[str]
+    rule_order: list[tuple[str, str]]
+    remote_rules: dict[str, list[str]]
+    inline_rules: dict[str, list[str]]
+    other_lines: list[str]
+
+
+def fetch_text(url: str) -> str:
+    request = Request(url, headers={"User-Agent": "ios_rule-builder/1.0"})
+    with urlopen(request) as response:
+        return response.read().decode("utf-8")
+
+
+def parse_msub(content: str) -> ParsedMsub:
+    rule_order: list[tuple[str, str]] = []
+    remote_rules: dict[str, list[str]] = {}
+    inline_rules: dict[str, list[str]] = {}
+    other_lines: list[str] = []
+
+    for raw_line in content.splitlines():
+        line = raw_line.strip()
+        if not line:
+            other_lines.append("")
+            continue
+        if not line.startswith("ruleset="):
+            other_lines.append(raw_line)
+            continue
+
+        group, source = raw_line[len("ruleset=") :].split(",", 1)
+        source = source.strip()
+        rule_order.append((group, source))
+        target = remote_rules if source.startswith(("http://", "https://")) else inline_rules
+        target.setdefault(group, []).append(source)
+
+    return ParsedMsub(
+        original_lines=content.splitlines(),
+        rule_order=rule_order,
+        remote_rules=remote_rules,
+        inline_rules=inline_rules,
+        other_lines=other_lines,
+    )
+
+
+def merge_rule_lines(contents: list[str]) -> list[str]:
+    seen: set[str] = set()
+    merged: list[str] = []
+    for content in contents:
+        for raw_line in content.splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith(("#", ";")):
+                continue
+            if line not in seen:
+                seen.add(line)
+                merged.append(line)
+    return merged
+
+
+def build_aggregated_config(parsed: ParsedMsub, output_base_url: str) -> str:
+    emitted_remote_groups: set[str] = set()
+    output_lines = [
+        "; aggregated from original msub.ini",
+        f"; source: {DEFAULT_SOURCE_URL}",
+    ]
+
+    for raw_line in parsed.original_lines:
+        if not raw_line.startswith("ruleset="):
+            output_lines.append(raw_line)
+            continue
+
+        group, source = raw_line[len("ruleset=") :].split(",", 1)
+        source = source.strip()
+        if not source.startswith(("http://", "https://")):
+            output_lines.append(raw_line)
+            continue
+        if group in emitted_remote_groups:
+            continue
+        emitted_remote_groups.add(group)
+        slug = RULESET_SLUGS[group]
+        output_lines.append(f"ruleset={group},{output_base_url}/{slug}.list")
+
+    return "\n".join(output_lines) + "\n"
+
+
+def render_rulesets_markdown(parsed: ParsedMsub) -> str:
+    lines = [
+        "# Aggregated Rulesets",
+        "",
+        "This repository builds one local `.list` file per ruleset group from the original `msub.ini` gist.",
+        "",
+        "| Group | Output File | Upstream Sources |",
+        "| --- | --- | --- |",
+    ]
+    for group, sources in parsed.remote_rules.items():
+        slug = RULESET_SLUGS[group]
+        joined = "<br>".join(sources)
+        lines.append(f"| {group} | `{slug}.list` | {joined} |")
+    return "\n".join(lines) + "\n"
+
+
+def write_text(path: Path, content: str) -> None:
+    path.write_text(content, encoding="utf-8")
+
+
+def build(source_url: str, output_base_url: str, aggregated_config_path: Path, rulesets_doc_path: Path) -> None:
+    parsed = parse_msub(fetch_text(source_url))
+
+    missing = sorted(set(parsed.remote_rules) - set(RULESET_SLUGS))
+    if missing:
+        raise KeyError(f"Missing slug mapping for: {', '.join(missing)}")
+
+    for group, sources in parsed.remote_rules.items():
+        merged = merge_rule_lines([fetch_text(source) for source in sources])
+        slug = RULESET_SLUGS[group]
+        write_text(ROOT / f"{slug}.list", "\n".join(merged) + "\n")
+
+    write_text(aggregated_config_path, build_aggregated_config(parsed, output_base_url))
+    write_text(rulesets_doc_path, render_rulesets_markdown(parsed))
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--source-url", default=os.getenv("SOURCE_MSUB_URL", DEFAULT_SOURCE_URL))
+    parser.add_argument("--output-base-url", default=os.getenv("OUTPUT_BASE_URL", DEFAULT_OUTPUT_BASE_URL))
+    parser.add_argument(
+        "--aggregated-config-path",
+        type=Path,
+        default=Path(os.getenv("AGGREGATED_CONFIG_PATH", DEFAULT_AGGREGATED_CONFIG)),
+    )
+    parser.add_argument(
+        "--rulesets-doc-path",
+        type=Path,
+        default=Path(os.getenv("RULESETS_DOC_PATH", DEFAULT_RULESETS_DOC)),
+    )
+    args = parser.parse_args()
+
+    build(args.source_url, args.output_base_url, args.aggregated_config_path, args.rulesets_doc_path)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

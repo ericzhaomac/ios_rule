@@ -1,10 +1,8 @@
-# > study
 DOMAIN-KEYWORD,zotero
 DOMAIN-KEYWORD,ssrn
 DOMAIN-KEYWORD,udemy
 DOMAIN-KEYWORD,sci-hub
 DOMAIN,scholar.google.com
-# > Scholar
 DOMAIN-SUFFIX,acm.org
 DOMAIN-SUFFIX,acs.org
 DOMAIN-SUFFIX,aip.org
@@ -57,10 +55,8 @@ DOMAIN-SUFFIX,westlawchina.com
 DOMAIN-SUFFIX,wiley.com
 DOMAIN-SUFFIX,worldbank.org
 DOMAIN-SUFFIX,worldscientific.com
-# > For Babies' Rules
 DOMAIN-KEYWORD,dilidili
 DOMAIN-KEYWORD,automationanywere
-# > barking
 DOMAIN-SUFFIX,crhnode.top
 DOMAIN-KEYWORD,jhlyi7tfyi7tghg
 DOMAIN-KEYWORD,emby
