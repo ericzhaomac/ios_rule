@@ -54,7 +54,11 @@ ruleset=🌍 全球代理,https://example.com/global.list
 """
         )
         fetched = {
-            "https://example.com/direct.list": "DOMAIN-SUFFIX,keep-direct.com\nDOMAIN-SUFFIX,shared.com\n",
+            "https://example.com/direct.list": (
+                "DOMAIN-SUFFIX,keep-direct.com\n"
+                "DOMAIN-SUFFIX,shared.com\n"
+                "IP-CIDR,192.0.2.0/24,no-resolve\n"
+            ),
             "https://example.com/ads.list": "DOMAIN-SUFFIX,shared.com\nDOMAIN-SUFFIX,keep-ads.com\n",
             "https://example.com/global.list": "DOMAIN-SUFFIX,shared.com\nDOMAIN-SUFFIX,keep-global.com\n",
         }
@@ -63,10 +67,20 @@ ruleset=🌍 全球代理,https://example.com/global.list
 
         self.assertEqual(
             grouped["🎯 全球直连"],
-            ["DOMAIN-SUFFIX,keep-direct.com", "DOMAIN-SUFFIX,shared.com"],
+            [
+                "DOMAIN-SUFFIX,keep-direct.com,🎯 全球直连",
+                "DOMAIN-SUFFIX,shared.com,🎯 全球直连",
+                "IP-CIDR,192.0.2.0/24,no-resolve,🎯 全球直连",
+            ],
         )
-        self.assertEqual(grouped["🛑 广告拦截"], ["DOMAIN-SUFFIX,keep-ads.com"])
-        self.assertEqual(grouped["🌍 全球代理"], ["DOMAIN-SUFFIX,keep-global.com"])
+        self.assertEqual(
+            grouped["🛑 广告拦截"],
+            ["DOMAIN-SUFFIX,keep-ads.com,🛑 广告拦截"],
+        )
+        self.assertEqual(
+            grouped["🌍 全球代理"],
+            ["DOMAIN-SUFFIX,keep-global.com,🌍 全球代理"],
+        )
 
     def test_build_aggregated_config_rewrites_only_remote_rules(self) -> None:
         parsed = parse_msub(SAMPLE_MSUB)

@@ -7,6 +7,9 @@ This repository maintains aggregated proxy rulesets and the automation used to r
 - `*.list`: aggregated ruleset files, one per group
 - `RULESETS.md`: mapping from each output file to its group name
 
+Each generated rule ends with its full policy group name, including the emoji.
+For example: `DOMAIN-SUFFIX,example.com,🛑 广告拦截`.
+
 ## Local rebuild
 
 ```bash

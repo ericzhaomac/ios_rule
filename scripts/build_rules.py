@@ -97,7 +97,7 @@ def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
             if line in claimed:
                 continue
             claimed.add(line)
-            filtered.append(line)
+            filtered.append(f"{line},{group}")
         grouped[group] = filtered
 
     return grouped
