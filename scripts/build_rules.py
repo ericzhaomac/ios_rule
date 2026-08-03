@@ -2,19 +2,14 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 import argparse
-import json
 import os
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_SOURCE_URL = (
-    "https://gist.githubusercontent.com/ericzhaomac/46caca8a5f226a7b7a9abbec79aba95f/raw/msub.ini"
-)
 DEFAULT_OUTPUT_BASE_URL = "https://raw.githubusercontent.com/ericzhaomac/ios_rule/main"
-DEFAULT_AGGREGATED_CONFIG = ROOT / "msub_aggregated.ini"
+DEFAULT_AGGREGATED_CONFIG = ROOT / ".generated" / "msub_aggregated.ini"
 DEFAULT_RULESETS_DOC = ROOT / "RULESETS.md"
 
 RULESET_SLUGS = {
@@ -93,10 +88,7 @@ def merge_rule_lines(contents: list[str]) -> list[str]:
 
 def build_aggregated_config(parsed: ParsedMsub, output_base_url: str) -> str:
     emitted_remote_groups: set[str] = set()
-    output_lines = [
-        "; aggregated from original msub.ini",
-        f"; source: {DEFAULT_SOURCE_URL}",
-    ]
+    output_lines = ["; aggregated rules"]
 
     for raw_line in parsed.original_lines:
         if not raw_line.startswith("ruleset="):
@@ -121,19 +113,19 @@ def render_rulesets_markdown(parsed: ParsedMsub) -> str:
     lines = [
         "# Aggregated Rulesets",
         "",
-        "This repository builds one local `.list` file per ruleset group from the original `msub.ini` gist.",
+        "This repository builds one local `.list` file per ruleset group.",
         "",
-        "| Group | Output File | Upstream Sources |",
-        "| --- | --- | --- |",
+        "| Group | Output File |",
+        "| --- | --- |",
     ]
-    for group, sources in parsed.remote_rules.items():
+    for group in parsed.remote_rules:
         slug = RULESET_SLUGS[group]
-        joined = "<br>".join(sources)
-        lines.append(f"| {group} | `{slug}.list` | {joined} |")
+        lines.append(f"| {group} | `{slug}.list` |")
     return "\n".join(lines) + "\n"
 
 
 def write_text(path: Path, content: str) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
 
 
@@ -155,7 +147,7 @@ def build(source_url: str, output_base_url: str, aggregated_config_path: Path, r
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--source-url", default=os.getenv("SOURCE_MSUB_URL", DEFAULT_SOURCE_URL))
+    parser.add_argument("--source-url", default=os.getenv("SOURCE_MSUB_URL"))
     parser.add_argument("--output-base-url", default=os.getenv("OUTPUT_BASE_URL", DEFAULT_OUTPUT_BASE_URL))
     parser.add_argument(
         "--aggregated-config-path",
@@ -168,6 +160,8 @@ def main() -> int:
         default=Path(os.getenv("RULESETS_DOC_PATH", DEFAULT_RULESETS_DOC)),
     )
     args = parser.parse_args()
+    if not args.source_url:
+        raise SystemExit("Missing SOURCE_MSUB_URL")
 
     build(args.source_url, args.output_base_url, args.aggregated_config_path, args.rulesets_doc_path)
     return 0

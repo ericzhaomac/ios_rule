@@ -21,10 +21,14 @@ jobs:
           python-version: "3.11"
 
       - name: Build aggregated rules
+        env:
+          SOURCE_MSUB_URL: ${{ secrets.SOURCE_MSUB_URL }}
+          AGGREGATED_CONFIG_PATH: ${{ github.workspace }}/.generated/msub_aggregated.ini
         run: python scripts/build_rules.py
 
       - name: Sync aggregated gist
         env:
+          AGGREGATED_CONFIG_PATH: ${{ github.workspace }}/.generated/msub_aggregated.ini
           GIST_TOKEN: ${{ secrets.GIST_TOKEN }}
           AGGREGATED_GIST_ID: ${{ secrets.AGGREGATED_GIST_ID }}
         run: python scripts/sync_gist.py

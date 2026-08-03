@@ -1,17 +1,17 @@
 # Aggregated Rulesets
 
-This repository builds one local `.list` file per ruleset group from the original `msub.ini` gist.
+This repository builds one local `.list` file per ruleset group.
 
-| Group | Output File | Upstream Sources |
-| --- | --- | --- |
-| 🎯 全球直连 | `direct.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Direct/Direct.list |
-| 🛑 广告拦截 | `advertising.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Advertising/Advertising.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Hijacking/Hijacking.list |
-| 📲 电报消息 | `telegram.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Telegram/Telegram.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TelegramNL/TelegramNL.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TelegramSG/TelegramSG.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/TelegramUS/TelegramUS.list |
-| 🤖 AI 服务 | `ai.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/OpenAI/OpenAI.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Claude/Claude.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Anthropic/Anthropic.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Gemini/Gemini.list |
-| 🎬 流媒体 | `streaming.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTube/YouTube.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/YouTubeMusic/YouTubeMusic.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Netflix/Netflix.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AmazonPrimeVideo/AmazonPrimeVideo.list |
-| 🇬🇧 BBC | `bbc.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/BBC/BBC.list |
-| 🇹🇼 巴哈姆特 | `bahamut.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Bahamut/Bahamut.list |
-| 🍎 苹果服务 | `apple.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppStore/AppStore.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Apple/Apple.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleDev/AppleDev.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleFirmware/AppleFirmware.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleHardware/AppleHardware.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleID/AppleID.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleMail/AppleMail.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleMedia/AppleMedia.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleMusic/AppleMusic.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleNews/AppleNews.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleProxy/AppleProxy.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/AppleTV/AppleTV.list |
-| 🐶 狗叫 | `barking.list` | https://raw.githubusercontent.com/ericzhaomac/ios_rule/refs/heads/main/barking.list |
-| 🌍 全球代理 | `global.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/GlobalMedia/GlobalMedia.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Global/Global.list |
-| 🇨🇳 中国代理 | `china.list` | https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/ChinaMedia/ChinaMedia.list<br>https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/China/China.list |
+| Group | Output File |
+| --- | --- |
+| 🎯 全球直连 | `direct.list` |
+| 🛑 广告拦截 | `advertising.list` |
+| 📲 电报消息 | `telegram.list` |
+| 🤖 AI 服务 | `ai.list` |
+| 🎬 流媒体 | `streaming.list` |
+| 🇬🇧 BBC | `bbc.list` |
+| 🇹🇼 巴哈姆特 | `bahamut.list` |
+| 🍎 苹果服务 | `apple.list` |
+| 🐶 狗叫 | `barking.list` |
+| 🌍 全球代理 | `global.list` |
+| 🇨🇳 中国代理 | `china.list` |

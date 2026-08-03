@@ -49,6 +49,7 @@ class ParseMsubTests(unittest.TestCase):
         parsed = parse_msub(SAMPLE_MSUB)
         config = build_aggregated_config(parsed, "https://raw.githubusercontent.com/ericzhaomac/ios_rule/main")
 
+        self.assertIn("; aggregated rules", config)
         self.assertIn("ruleset=🎯 全球直连,[]DOMAIN-SUFFIX,local", config)
         self.assertIn(
             "ruleset=🎯 全球直连,https://raw.githubusercontent.com/ericzhaomac/ios_rule/main/direct.list",
@@ -65,7 +66,7 @@ class ParseMsubTests(unittest.TestCase):
         markdown = render_rulesets_markdown(parsed)
 
         self.assertIn("`advertising.list`", markdown)
-        self.assertIn("https://example.com/hijacking.list", markdown)
+        self.assertNotIn("https://example.com/hijacking.list", markdown)
 
     def test_all_remote_groups_have_slug_mapping(self) -> None:
         parsed = parse_msub(SAMPLE_MSUB)
