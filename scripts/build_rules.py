@@ -89,11 +89,16 @@ def merge_rule_lines(contents: list[str]) -> list[str]:
 def normalize_rule_line(line: str) -> str:
     if line.upper().startswith("PROCESS-NAME,"):
         return f"USER-AGENT,{line.split(',', 1)[1]}"
+    if line.upper().startswith("IP-CIDR6,"):
+        return f"IP6-CIDR,{line.split(',', 1)[1]}"
     return line
 
 
-def should_append_policy_group(line: str) -> bool:
-    return line.rpartition(",")[2].strip().lower() != "no-resolve"
+def append_policy_group(line: str, group: str) -> str:
+    rule, separator, option = line.rpartition(",")
+    if separator and option.strip().lower() == "no-resolve":
+        return f"{rule},{group},no-resolve"
+    return f"{line},{group}"
 
 
 def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
@@ -108,7 +113,7 @@ def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
             if line in claimed:
                 continue
             claimed.add(line)
-            filtered.append(f"{line},{group}" if should_append_policy_group(line) else line)
+            filtered.append(append_policy_group(line, group))
         grouped[group] = filtered
 
     return grouped

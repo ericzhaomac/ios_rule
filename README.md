@@ -9,8 +9,9 @@ This repository maintains aggregated proxy rulesets and the automation used to r
 
 Each generated rule ends with its full policy group name, including the emoji.
 For example: `DOMAIN-SUFFIX,example.com,🛑 广告拦截`.
-Rules ending in `no-resolve` are left unchanged, and `PROCESS-NAME` rules are
-emitted as `USER-AGENT` rules.
+For rules ending in `no-resolve`, the policy group is inserted immediately before
+that option. `PROCESS-NAME` rules are emitted as `USER-AGENT`, and `IP-CIDR6`
+rules are emitted as `IP6-CIDR`.
 
 ## Local rebuild
 

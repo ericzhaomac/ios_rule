@@ -58,6 +58,7 @@ ruleset=🌍 全球代理,https://example.com/global.list
                 "DOMAIN-SUFFIX,keep-direct.com\n"
                 "DOMAIN-SUFFIX,shared.com\n"
                 "IP-CIDR,192.0.2.0/24,no-resolve\n"
+                "IP-CIDR6,2001:db8::/32,no-resolve\n"
                 "PROCESS-NAME,ExampleApp\n"
             ),
             "https://example.com/ads.list": "DOMAIN-SUFFIX,shared.com\nDOMAIN-SUFFIX,keep-ads.com\n",
@@ -71,7 +72,8 @@ ruleset=🌍 全球代理,https://example.com/global.list
             [
                 "DOMAIN-SUFFIX,keep-direct.com,🎯 全球直连",
                 "DOMAIN-SUFFIX,shared.com,🎯 全球直连",
-                "IP-CIDR,192.0.2.0/24,no-resolve",
+                "IP-CIDR,192.0.2.0/24,🎯 全球直连,no-resolve",
+                "IP6-CIDR,2001:db8::/32,🎯 全球直连,no-resolve",
                 "USER-AGENT,ExampleApp,🎯 全球直连",
             ],
         )
