@@ -3,16 +3,13 @@ DOMAIN-KEYWORD,ssrn
 DOMAIN-KEYWORD,udemy
 DOMAIN-KEYWORD,sci-hub
 DOMAIN,scholar.google.com
-DOMAIN-SUFFIX,acm.org
 DOMAIN-SUFFIX,acs.org
 DOMAIN-SUFFIX,aip.org
 @ -21,13 +9,19 @@ DOMAIN-SUFFIX,ascelibrary.org
 DOMAIN-SUFFIX,asm.org
 DOMAIN-SUFFIX,asme.org
 DOMAIN-SUFFIX,astm.org
-DOMAIN-SUFFIX,blackwell-synergy.com
 DOMAIN-SUFFIX,bmj.com
-DOMAIN-SUFFIX,cabdirect.org
 DOMAIN-SUFFIX,cambridge.org
 DOMAIN-SUFFIX,cas.org
 DOMAIN-SUFFIX,cell.com
@@ -34,14 +31,11 @@ DOMAIN-SUFFIX,pkulaw.com
 DOMAIN-SUFFIX,pnas.org
 DOMAIN-SUFFIX,proquest.com
 DOMAIN-SUFFIX,readcube.com
-DOMAIN-SUFFIX,researchgate.net
 DOMAIN-SUFFIX,rsc.org
 DOMAIN-SUFFIX,sagepub.com
 DOMAIN-SUFFIX,sci-hub.tw
 DOMAIN-SUFFIX,sciencedirect.com
-DOMAIN-SUFFIX,sciencemag.org
 DOMAIN-SUFFIX,scitation.org
-DOMAIN-SUFFIX,scopus.com
 DOMAIN-SUFFIX,siam.org
 DOMAIN-SUFFIX,spiedigitallibrary.org
 @ -69,19 +68,10 @@ DOMAIN-SUFFIX,springerlink.com
@@ -52,7 +46,6 @@ DOMAIN-SUFFIX,wanfangdata.com
 DOMAIN-SUFFIX,webofknowledge.com
 DOMAIN-SUFFIX,westlaw.com
 DOMAIN-SUFFIX,westlawchina.com
-DOMAIN-SUFFIX,wiley.com
 DOMAIN-SUFFIX,worldbank.org
 DOMAIN-SUFFIX,worldscientific.com
 DOMAIN-KEYWORD,dilidili

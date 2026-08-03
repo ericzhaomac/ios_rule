@@ -1,5 +1,4 @@
 DOMAIN,apps.apple.com
-DOMAIN,itunes.apple.com
 DOMAIN,apple-events.akamaized.net
 DOMAIN,appleworldwidedeveloper.hb-api.omtrdc.net
 DOMAIN,appleworldwidedeveloper.sc.omtrdc.net
@@ -1503,7 +1502,6 @@ DOMAIN-SUFFIX,wwwapplemusic.com
 DOMAIN-SUFFIX,applemusic.com
 DOMAIN-SUFFIX,apple-dns.net
 DOMAIN-SUFFIX,appsto.re
-DOMAIN-SUFFIX,digicert.com
 DOMAIN-SUFFIX,apple-cloudkit.com
 DOMAIN-SUFFIX,apple-icloud.cn
 DOMAIN-SUFFIX,apple-livephotoskit.com
@@ -1563,7 +1561,6 @@ DOMAIN-SUFFIX,wwwicloud.com
 DOMAIN-KEYWORD,apple-support.akadns.net
 DOMAIN-KEYWORD,apple.com.akadns.net
 DOMAIN-KEYWORD,apple.com.edgekey.net
-DOMAIN-KEYWORD,buy.itunes.apple.com
 DOMAIN-KEYWORD,smp-device
 DOMAIN-KEYWORD,testflight
 DOMAIN-KEYWORD,icloud.com.akadns.net

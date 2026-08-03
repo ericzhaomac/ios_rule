@@ -86,6 +86,23 @@ def merge_rule_lines(contents: list[str]) -> list[str]:
     return merged
 
 
+def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
+    grouped: dict[str, list[str]] = {}
+    claimed: set[str] = set()
+
+    for group, sources in parsed.remote_rules.items():
+        merged = merge_rule_lines([fetcher(source) for source in sources])
+        filtered: list[str] = []
+        for line in merged:
+            if line in claimed:
+                continue
+            claimed.add(line)
+            filtered.append(line)
+        grouped[group] = filtered
+
+    return grouped
+
+
 def build_aggregated_config(parsed: ParsedMsub, output_base_url: str) -> str:
     emitted_remote_groups: set[str] = set()
     output_lines = ["; aggregated rules"]
@@ -136,8 +153,9 @@ def build(source_url: str, output_base_url: str, aggregated_config_path: Path, r
     if missing:
         raise KeyError(f"Missing slug mapping for: {', '.join(missing)}")
 
-    for group, sources in parsed.remote_rules.items():
-        merged = merge_rule_lines([fetch_text(source) for source in sources])
+    grouped = build_group_rule_lines(parsed, fetch_text)
+
+    for group, merged in grouped.items():
         slug = RULESET_SLUGS[group]
         write_text(ROOT / f"{slug}.list", "\n".join(merged) + "\n")
 
