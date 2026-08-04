@@ -4,11 +4,13 @@ from pathlib import Path
 
 from scripts.build_rules import (
     RULESET_SLUGS,
+    append_policy_group,
     build_aggregated_config,
     build_group_rule_lines,
     merge_rule_lines,
     parse_msub,
     render_rulesets_markdown,
+    validate_policy_group_lines,
 )
 
 
@@ -56,6 +58,7 @@ ruleset=🌍 全球代理,https://example.com/global.list
         fetched = {
             "https://example.com/direct.list": (
                 "DOMAIN-SUFFIX,keep-direct.com\n"
+                "DOMAIN-SUFFIX,keep-direct.com,🎯 全球直连\n"
                 "DOMAIN-SUFFIX,shared.com\n"
                 "IP-CIDR,192.0.2.0/24,no-resolve\n"
                 "IP-CIDR6,2001:db8::/32,no-resolve\n"
@@ -85,6 +88,35 @@ ruleset=🌍 全球代理,https://example.com/global.list
             grouped["🌍 全球代理"],
             ["DOMAIN-SUFFIX,keep-global.com,🌍 全球代理"],
         )
+
+    def test_build_group_rule_lines_skips_manually_managed_groups(self) -> None:
+        parsed = parse_msub("ruleset=🐶 狗叫,https://example.com/barking.list\n")
+
+        grouped = build_group_rule_lines(parsed, lambda _: self.fail("manual ruleset must not be fetched"))
+
+        self.assertEqual(grouped, {})
+
+    def test_append_policy_group_is_idempotent(self) -> None:
+        self.assertEqual(
+            append_policy_group("DOMAIN-SUFFIX,example.com,🎯 全球直连,🎯 全球直连", "🎯 全球直连"),
+            "DOMAIN-SUFFIX,example.com,🎯 全球直连",
+        )
+        self.assertEqual(
+            append_policy_group("IP-CIDR,192.0.2.0/24,🎯 全球直连,🎯 全球直连,no-resolve", "🎯 全球直连"),
+            "IP-CIDR,192.0.2.0/24,🎯 全球直连,no-resolve",
+        )
+        self.assertEqual(
+            append_policy_group("DOMAIN-SUFFIX,example.com,🌍 全球代理", "🎯 全球直连"),
+            "DOMAIN-SUFFIX,example.com,🎯 全球直连",
+        )
+
+    def test_validate_policy_group_lines_rejects_duplicate_policy_groups(self) -> None:
+        with self.assertRaisesRegex(ValueError, "expected exactly one"):
+            validate_policy_group_lines(
+                ["DOMAIN-SUFFIX,example.com,🎯 全球直连,🎯 全球直连"],
+                "🎯 全球直连",
+                "direct.list",
+            )
 
     def test_build_aggregated_config_rewrites_only_remote_rules(self) -> None:
         parsed = parse_msub(SAMPLE_MSUB)

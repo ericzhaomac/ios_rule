@@ -25,6 +25,7 @@ RULESET_SLUGS = {
     "🌍 全球代理": "global",
     "🇨🇳 中国代理": "china",
 }
+MANUALLY_MANAGED_GROUPS = {"🐶 狗叫"}
 
 
 @dataclass
@@ -94,11 +95,30 @@ def normalize_rule_line(line: str) -> str:
     return line
 
 
+def remove_policy_groups(line: str) -> str:
+    return ",".join(field for field in line.split(",") if field.strip() not in RULESET_SLUGS)
+
+
 def append_policy_group(line: str, group: str) -> str:
-    rule, separator, option = line.rpartition(",")
-    if separator and option.strip().lower() == "no-resolve":
-        return f"{rule},{group},no-resolve"
-    return f"{line},{group}"
+    fields = remove_policy_groups(line).split(",")
+    if fields[-1].strip().lower() == "no-resolve":
+        fields.insert(-1, group)
+    else:
+        fields.append(group)
+    return ",".join(fields)
+
+
+def validate_policy_group_lines(lines: list[str], group: str, source: str) -> None:
+    for line_number, line in enumerate(lines, 1):
+        if not line or line.startswith(("#", ";")):
+            continue
+        fields = [field.strip() for field in line.split(",")]
+        policies = [(index, field) for index, field in enumerate(fields) if field in RULESET_SLUGS]
+        expected_position = len(fields) - 2 if fields[-1].lower() == "no-resolve" else len(fields) - 1
+        if policies != [(expected_position, group)]:
+            raise ValueError(
+                f"{source}:{line_number}: expected exactly one {group!r} policy group at the end: {line}"
+            )
 
 
 def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
@@ -106,10 +126,12 @@ def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
     claimed: set[str] = set()
 
     for group, sources in parsed.remote_rules.items():
+        if group in MANUALLY_MANAGED_GROUPS:
+            continue
         merged = merge_rule_lines([fetcher(source) for source in sources])
         filtered: list[str] = []
         for line in merged:
-            line = normalize_rule_line(line)
+            line = remove_policy_groups(normalize_rule_line(line))
             if line in claimed:
                 continue
             claimed.add(line)
@@ -173,7 +195,14 @@ def build(source_url: str, output_base_url: str, aggregated_config_path: Path, r
 
     for group, merged in grouped.items():
         slug = RULESET_SLUGS[group]
+        validate_policy_group_lines(merged, group, f"{slug}.list")
         write_text(ROOT / f"{slug}.list", "\n".join(merged) + "\n")
+
+    for group in MANUALLY_MANAGED_GROUPS.intersection(parsed.remote_rules):
+        path = ROOT / f"{RULESET_SLUGS[group]}.list"
+        if not path.exists():
+            raise FileNotFoundError(f"Missing manually managed ruleset: {path}")
+        validate_policy_group_lines(path.read_text(encoding="utf-8").splitlines(), group, path.name)
 
     write_text(aggregated_config_path, build_aggregated_config(parsed, output_base_url))
     write_text(rulesets_doc_path, render_rulesets_markdown(parsed))

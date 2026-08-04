@@ -4,7 +4,7 @@ This repository maintains aggregated proxy rulesets and the automation used to r
 
 ## Generated files
 
-- `*.list`: aggregated ruleset files, one per group
+- `*.list`: ruleset files, one per group (`barking.list` is maintained manually)
 - `RULESETS.md`: mapping from each output file to its group name
 
 Each generated rule ends with its full policy group name, including the emoji.
@@ -12,6 +12,7 @@ For example: `DOMAIN-SUFFIX,example.com,🛑 广告拦截`.
 For rules ending in `no-resolve`, the policy group is inserted immediately before
 that option. `PROCESS-NAME` rules are emitted as `USER-AGENT`, and `IP-CIDR6`
 rules are emitted as `IP6-CIDR`.
+The builder validates that every rule contains its policy group exactly once.
 
 ## Local rebuild
 
