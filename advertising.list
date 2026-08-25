@@ -279929,9 +279929,9 @@ IP-CIDR,74.117.182.77/32,🛑 广告拦截,no-resolve
 IP-CIDR,77.162.125.199/32,🛑 广告拦截,no-resolve
 IP-CIDR,78.140.131.214/32,🛑 广告拦截,no-resolve
 IP-CIDR,88.42.84.136/32,🛑 广告拦截,no-resolve
-IP-CIDR6,2402:4e00:1900:1700:0:9554:1ad9:c3a/128,🛑 广告拦截,no-resolve
-IP-CIDR6,240e:928:1400:10::25/128,🛑 广告拦截,no-resolve
-IP-CIDR6,2402:db40:5100:1011::5/128,🛑 广告拦截,no-resolve
+IP6-CIDR,2402:4e00:1900:1700:0:9554:1ad9:c3a/128,🛑 广告拦截,no-resolve
+IP6-CIDR,240e:928:1400:10::25/128,🛑 广告拦截,no-resolve
+IP6-CIDR,2402:db40:5100:1011::5/128,🛑 广告拦截,no-resolve
 DOMAIN,geo2.adobe.com,🛑 广告拦截
 DOMAIN-SUFFIX,adsame.com,🛑 广告拦截
 IP-CIDR,111.175.220.163/32,🛑 广告拦截,no-resolve

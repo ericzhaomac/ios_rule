@@ -20,8 +20,8 @@ IP-CIDR,224.0.0.0/4,🎯 全球直连,no-resolve
 IP-CIDR,240.0.0.0/4,🎯 全球直连,no-resolve
 
 # IPv6 unspecified, loopback, unique-local, link-local, and multicast ranges
-IP-CIDR6,::/128,🎯 全球直连,no-resolve
-IP-CIDR6,::1/128,🎯 全球直连,no-resolve
-IP-CIDR6,fc00::/7,🎯 全球直连,no-resolve
-IP-CIDR6,fe80::/10,🎯 全球直连,no-resolve
-IP-CIDR6,ff00::/8,🎯 全球直连,no-resolve
+IP6-CIDR,::/128,🎯 全球直连,no-resolve
+IP6-CIDR,::1/128,🎯 全球直连,no-resolve
+IP6-CIDR,fc00::/7,🎯 全球直连,no-resolve
+IP6-CIDR,fe80::/10,🎯 全球直连,no-resolve
+IP6-CIDR,ff00::/8,🎯 全球直连,no-resolve

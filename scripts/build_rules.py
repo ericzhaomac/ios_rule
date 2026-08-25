@@ -97,8 +97,8 @@ def merge_rule_lines(contents: list[str]) -> list[str]:
 def normalize_rule_line(line: str) -> str:
     if line.upper().startswith("PROCESS-NAME,"):
         return f"USER-AGENT,{line.split(',', 1)[1]}"
-    if line.upper().startswith("IP6-CIDR,"):
-        return f"IP-CIDR6,{line.split(',', 1)[1]}"
+    if line.upper().startswith("IP-CIDR6,"):
+        return f"IP6-CIDR,{line.split(',', 1)[1]}"
     return line
 
 

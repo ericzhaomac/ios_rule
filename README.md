@@ -12,8 +12,8 @@ This repository maintains aggregated proxy rulesets and the automation used to r
 Each generated rule ends with its full policy group name, including the emoji.
 For example: `DOMAIN-SUFFIX,example.com,🛑 广告拦截`.
 For rules ending in `no-resolve`, the policy group is inserted immediately before
-that option. `PROCESS-NAME` rules are emitted as `USER-AGENT`, and legacy
-`IP6-CIDR` rules are emitted as Mihomo-compatible `IP-CIDR6`.
+that option. `PROCESS-NAME` rules are emitted as `USER-AGENT`, and `IP-CIDR6`
+rules are emitted as Quantumult X-compatible `IP6-CIDR`.
 The builder validates that every rule contains its policy group exactly once.
 Files under `user-defined/` are validated but never overwritten by the builder.
 When referenced by the source `msub.ini`, `bypass.list` participates in Direct
