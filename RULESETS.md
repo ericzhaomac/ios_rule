@@ -4,7 +4,6 @@ This repository provides aggregated and manually maintained ruleset files.
 
 | Group | Output File |
 | --- | --- |
-| 🎯 全球直连 | `user-defined/bypass.list` |
 | 🎯 全球直连 | `direct.list` |
 | 🛑 广告拦截 | `advertising.list` |
 | 📲 电报消息 | `telegram.list` |
@@ -16,3 +15,5 @@ This repository provides aggregated and manually maintained ruleset files.
 | 🐶 狗叫 | `user-defined/barking.list` |
 | 🌍 全球代理 | `global.list` |
 | 🇨🇳 中国代理 | `china.list` |
+
+`user-defined/bypass.list` is a user-defined input merged into `direct.list`.

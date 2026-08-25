@@ -96,6 +96,34 @@ ruleset=🌍 全球代理,https://example.com/global.list
 
         self.assertEqual(grouped, {})
 
+    def test_build_group_rule_lines_merges_bypass_into_direct(self) -> None:
+        parsed = parse_msub(
+            """ruleset=🎯 全球直连,https://example.com/user-defined/bypass.list
+ruleset=🎯 全球直连,https://example.com/direct.list
+"""
+        )
+        fetched = {
+            "https://example.com/user-defined/bypass.list": (
+                "DOMAIN,localhost,🎯 全球直连\n"
+                "IP-CIDR,127.0.0.0/8,🎯 全球直连,no-resolve\n"
+            ),
+            "https://example.com/direct.list": (
+                "DOMAIN,localhost\n"
+                "DOMAIN-SUFFIX,example.com\n"
+            ),
+        }
+
+        grouped = build_group_rule_lines(parsed, fetched.__getitem__)
+
+        self.assertEqual(
+            grouped["🎯 全球直连"],
+            [
+                "DOMAIN,localhost,🎯 全球直连",
+                "IP-CIDR,127.0.0.0/8,🎯 全球直连,no-resolve",
+                "DOMAIN-SUFFIX,example.com,🎯 全球直连",
+            ],
+        )
+
     def test_append_policy_group_is_idempotent(self) -> None:
         self.assertEqual(
             append_policy_group("DOMAIN-SUFFIX,example.com,🎯 全球直连,🎯 全球直连", "🎯 全球直连"),
@@ -128,11 +156,7 @@ ruleset=🌍 全球代理,https://example.com/global.list
             "ruleset=🎯 全球直连,https://raw.githubusercontent.com/ericzhaomac/ios_rule/main/direct.list",
             config,
         )
-        self.assertIn(
-            "ruleset=🎯 全球直连,https://raw.githubusercontent.com/ericzhaomac/ios_rule/main/user-defined/bypass.list",
-            config,
-        )
-        self.assertLess(config.index("user-defined/bypass.list"), config.index("direct.list"))
+        self.assertNotIn("user-defined/bypass.list", config)
         self.assertIn(
             "ruleset=🛑 广告拦截,https://raw.githubusercontent.com/ericzhaomac/ios_rule/main/advertising.list",
             config,
@@ -157,6 +181,7 @@ ruleset=🌍 全球代理,https://example.com/global.list
 
         self.assertIn("`advertising.list`", markdown)
         self.assertIn("`user-defined/bypass.list`", markdown)
+        self.assertIn("merged into `direct.list`", markdown)
         self.assertNotIn("https://example.com/hijacking.list", markdown)
 
     def test_render_rulesets_markdown_uses_user_defined_barking_path(self) -> None:

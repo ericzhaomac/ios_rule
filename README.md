@@ -5,8 +5,8 @@ This repository maintains aggregated proxy rulesets and the automation used to r
 ## Ruleset files
 
 - `*.list`: automatically aggregated ruleset files
-- `user-defined/bypass.list`: manually maintained direct/bypass rules
-- `user-defined/barking.list`: manually maintained rules for the `🐶 狗叫` policy
+- `user-defined/bypass.list`: manually maintained input merged into `direct.list`
+- `user-defined/barking.list`: manually maintained passthrough rules for the independent `🐶 狗叫` policy
 - `RULESETS.md`: mapping from each output file to its group name
 
 Each generated rule ends with its full policy group name, including the emoji.
@@ -16,6 +16,8 @@ that option. `PROCESS-NAME` rules are emitted as `USER-AGENT`, and legacy
 `IP6-CIDR` rules are emitted as Mihomo-compatible `IP-CIDR6`.
 The builder validates that every rule contains its policy group exactly once.
 Files under `user-defined/` are validated but never overwritten by the builder.
+When referenced by the source `msub.ini`, `bypass.list` participates in Direct
+aggregation and deduplication, while `barking.list` remains a standalone ruleset.
 
 ## Local rebuild
 

@@ -25,11 +25,14 @@ RULESET_SLUGS = {
     "🌍 全球代理": "global",
     "🇨🇳 中国代理": "china",
 }
-MANUAL_RULESET_PATHS = {
+USER_DEFINED_RULESET_PATHS = {
     "🎯 全球直连": [Path("user-defined/bypass.list")],
     "🐶 狗叫": [Path("user-defined/barking.list")],
 }
-NON_AGGREGATED_GROUPS = {"🐶 狗叫"}
+PASSTHROUGH_RULESET_PATHS = {
+    "🐶 狗叫": [Path("user-defined/barking.list")],
+}
+NON_AGGREGATED_GROUPS = set(PASSTHROUGH_RULESET_PATHS)
 
 
 @dataclass
@@ -162,7 +165,7 @@ def build_aggregated_config(parsed: ParsedMsub, output_base_url: str) -> str:
         if group in emitted_remote_groups:
             continue
         emitted_remote_groups.add(group)
-        for path in MANUAL_RULESET_PATHS.get(group, []):
+        for path in PASSTHROUGH_RULESET_PATHS.get(group, []):
             output_lines.append(f"ruleset={group},{output_base_url}/{path.as_posix()}")
         if group not in NON_AGGREGATED_GROUPS:
             slug = RULESET_SLUGS[group]
@@ -181,11 +184,18 @@ def render_rulesets_markdown(parsed: ParsedMsub) -> str:
         "| --- | --- |",
     ]
     for group in parsed.remote_rules:
-        for path in MANUAL_RULESET_PATHS.get(group, []):
+        for path in PASSTHROUGH_RULESET_PATHS.get(group, []):
             lines.append(f"| {group} | `{path.as_posix()}` |")
         if group not in NON_AGGREGATED_GROUPS:
             slug = RULESET_SLUGS[group]
             lines.append(f"| {group} | `{slug}.list` |")
+    if "🎯 全球直连" in parsed.remote_rules:
+        lines.extend(
+            [
+                "",
+                "`user-defined/bypass.list` is a user-defined input merged into `direct.list`.",
+            ]
+        )
     return "\n".join(lines) + "\n"
 
 
@@ -208,7 +218,7 @@ def build(source_url: str, output_base_url: str, aggregated_config_path: Path, r
         validate_policy_group_lines(merged, group, f"{slug}.list")
         write_text(ROOT / f"{slug}.list", "\n".join(merged) + "\n")
 
-    for group, relative_paths in MANUAL_RULESET_PATHS.items():
+    for group, relative_paths in USER_DEFINED_RULESET_PATHS.items():
         for relative_path in relative_paths:
             path = ROOT / relative_path
             if not path.exists():
