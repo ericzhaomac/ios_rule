@@ -1,9 +1,10 @@
 # Aggregated Rulesets
 
-This repository builds one local `.list` file per ruleset group.
+This repository provides aggregated and manually maintained ruleset files.
 
 | Group | Output File |
 | --- | --- |
+| 🎯 全球直连 | `user-defined/bypass.list` |
 | 🎯 全球直连 | `direct.list` |
 | 🛑 广告拦截 | `advertising.list` |
 | 📲 电报消息 | `telegram.list` |
@@ -12,6 +13,6 @@ This repository builds one local `.list` file per ruleset group.
 | 🇬🇧 BBC | `bbc.list` |
 | 🇹🇼 巴哈姆特 | `bahamut.list` |
 | 🍎 苹果服务 | `apple.list` |
-| 🐶 狗叫 | `barking.list` |
+| 🐶 狗叫 | `user-defined/barking.list` |
 | 🌍 全球代理 | `global.list` |
 | 🇨🇳 中国代理 | `china.list` |

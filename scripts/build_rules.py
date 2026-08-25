@@ -25,7 +25,11 @@ RULESET_SLUGS = {
     "🌍 全球代理": "global",
     "🇨🇳 中国代理": "china",
 }
-MANUALLY_MANAGED_GROUPS = {"🐶 狗叫"}
+MANUAL_RULESET_PATHS = {
+    "🎯 全球直连": [Path("user-defined/bypass.list")],
+    "🐶 狗叫": [Path("user-defined/barking.list")],
+}
+NON_AGGREGATED_GROUPS = {"🐶 狗叫"}
 
 
 @dataclass
@@ -90,8 +94,8 @@ def merge_rule_lines(contents: list[str]) -> list[str]:
 def normalize_rule_line(line: str) -> str:
     if line.upper().startswith("PROCESS-NAME,"):
         return f"USER-AGENT,{line.split(',', 1)[1]}"
-    if line.upper().startswith("IP-CIDR6,"):
-        return f"IP6-CIDR,{line.split(',', 1)[1]}"
+    if line.upper().startswith("IP6-CIDR,"):
+        return f"IP-CIDR6,{line.split(',', 1)[1]}"
     return line
 
 
@@ -126,7 +130,7 @@ def build_group_rule_lines(parsed: ParsedMsub, fetcher) -> dict[str, list[str]]:
     claimed: set[str] = set()
 
     for group, sources in parsed.remote_rules.items():
-        if group in MANUALLY_MANAGED_GROUPS:
+        if group in NON_AGGREGATED_GROUPS:
             continue
         merged = merge_rule_lines([fetcher(source) for source in sources])
         filtered: list[str] = []
@@ -158,8 +162,11 @@ def build_aggregated_config(parsed: ParsedMsub, output_base_url: str) -> str:
         if group in emitted_remote_groups:
             continue
         emitted_remote_groups.add(group)
-        slug = RULESET_SLUGS[group]
-        output_lines.append(f"ruleset={group},{output_base_url}/{slug}.list")
+        for path in MANUAL_RULESET_PATHS.get(group, []):
+            output_lines.append(f"ruleset={group},{output_base_url}/{path.as_posix()}")
+        if group not in NON_AGGREGATED_GROUPS:
+            slug = RULESET_SLUGS[group]
+            output_lines.append(f"ruleset={group},{output_base_url}/{slug}.list")
 
     return "\n".join(output_lines) + "\n"
 
@@ -168,14 +175,17 @@ def render_rulesets_markdown(parsed: ParsedMsub) -> str:
     lines = [
         "# Aggregated Rulesets",
         "",
-        "This repository builds one local `.list` file per ruleset group.",
+        "This repository provides aggregated and manually maintained ruleset files.",
         "",
         "| Group | Output File |",
         "| --- | --- |",
     ]
     for group in parsed.remote_rules:
-        slug = RULESET_SLUGS[group]
-        lines.append(f"| {group} | `{slug}.list` |")
+        for path in MANUAL_RULESET_PATHS.get(group, []):
+            lines.append(f"| {group} | `{path.as_posix()}` |")
+        if group not in NON_AGGREGATED_GROUPS:
+            slug = RULESET_SLUGS[group]
+            lines.append(f"| {group} | `{slug}.list` |")
     return "\n".join(lines) + "\n"
 
 
@@ -198,11 +208,16 @@ def build(source_url: str, output_base_url: str, aggregated_config_path: Path, r
         validate_policy_group_lines(merged, group, f"{slug}.list")
         write_text(ROOT / f"{slug}.list", "\n".join(merged) + "\n")
 
-    for group in MANUALLY_MANAGED_GROUPS.intersection(parsed.remote_rules):
-        path = ROOT / f"{RULESET_SLUGS[group]}.list"
-        if not path.exists():
-            raise FileNotFoundError(f"Missing manually managed ruleset: {path}")
-        validate_policy_group_lines(path.read_text(encoding="utf-8").splitlines(), group, path.name)
+    for group, relative_paths in MANUAL_RULESET_PATHS.items():
+        for relative_path in relative_paths:
+            path = ROOT / relative_path
+            if not path.exists():
+                raise FileNotFoundError(f"Missing manually managed ruleset: {path}")
+            validate_policy_group_lines(
+                path.read_text(encoding="utf-8").splitlines(),
+                group,
+                relative_path.as_posix(),
+            )
 
     write_text(aggregated_config_path, build_aggregated_config(parsed, output_base_url))
     write_text(rulesets_doc_path, render_rulesets_markdown(parsed))

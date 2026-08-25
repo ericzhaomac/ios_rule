@@ -61,7 +61,7 @@ ruleset=🌍 全球代理,https://example.com/global.list
                 "DOMAIN-SUFFIX,keep-direct.com,🎯 全球直连\n"
                 "DOMAIN-SUFFIX,shared.com\n"
                 "IP-CIDR,192.0.2.0/24,no-resolve\n"
-                "IP-CIDR6,2001:db8::/32,no-resolve\n"
+                "IP6-CIDR,2001:db8::/32,no-resolve\n"
                 "PROCESS-NAME,ExampleApp\n"
             ),
             "https://example.com/ads.list": "DOMAIN-SUFFIX,shared.com\nDOMAIN-SUFFIX,keep-ads.com\n",
@@ -76,7 +76,7 @@ ruleset=🌍 全球代理,https://example.com/global.list
                 "DOMAIN-SUFFIX,keep-direct.com,🎯 全球直连",
                 "DOMAIN-SUFFIX,shared.com,🎯 全球直连",
                 "IP-CIDR,192.0.2.0/24,🎯 全球直连,no-resolve",
-                "IP6-CIDR,2001:db8::/32,🎯 全球直连,no-resolve",
+                "IP-CIDR6,2001:db8::/32,🎯 全球直连,no-resolve",
                 "USER-AGENT,ExampleApp,🎯 全球直连",
             ],
         )
@@ -129,17 +129,43 @@ ruleset=🌍 全球代理,https://example.com/global.list
             config,
         )
         self.assertIn(
+            "ruleset=🎯 全球直连,https://raw.githubusercontent.com/ericzhaomac/ios_rule/main/user-defined/bypass.list",
+            config,
+        )
+        self.assertLess(config.index("user-defined/bypass.list"), config.index("direct.list"))
+        self.assertIn(
             "ruleset=🛑 广告拦截,https://raw.githubusercontent.com/ericzhaomac/ios_rule/main/advertising.list",
             config,
         )
         self.assertNotIn("https://example.com/ads.list", config)
+
+    def test_build_aggregated_config_uses_user_defined_barking_only(self) -> None:
+        parsed = parse_msub("ruleset=🐶 狗叫,https://example.com/barking.list\n")
+
+        config = build_aggregated_config(parsed, "https://raw.example.test/main")
+
+        self.assertIn(
+            "ruleset=🐶 狗叫,https://raw.example.test/main/user-defined/barking.list",
+            config,
+        )
+        self.assertNotIn("https://raw.example.test/main/barking.list", config)
+        self.assertNotIn("https://example.com/barking.list", config)
 
     def test_render_rulesets_markdown_lists_sources(self) -> None:
         parsed = parse_msub(SAMPLE_MSUB)
         markdown = render_rulesets_markdown(parsed)
 
         self.assertIn("`advertising.list`", markdown)
+        self.assertIn("`user-defined/bypass.list`", markdown)
         self.assertNotIn("https://example.com/hijacking.list", markdown)
+
+    def test_render_rulesets_markdown_uses_user_defined_barking_path(self) -> None:
+        parsed = parse_msub("ruleset=🐶 狗叫,https://example.com/barking.list\n")
+
+        markdown = render_rulesets_markdown(parsed)
+
+        self.assertIn("`user-defined/barking.list`", markdown)
+        self.assertNotIn("`barking.list`", markdown)
 
     def test_all_remote_groups_have_slug_mapping(self) -> None:
         parsed = parse_msub(SAMPLE_MSUB)

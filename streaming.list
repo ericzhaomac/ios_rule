@@ -178,7 +178,7 @@ DOMAIN-SUFFIX,ytimg.com,🎬 流媒体
 DOMAIN-KEYWORD,youtube,🎬 流媒体
 IP-CIDR,172.110.32.0/21,🎬 流媒体,no-resolve
 IP-CIDR,216.73.80.0/20,🎬 流媒体,no-resolve
-IP6-CIDR,2620:120:e000::/40,🎬 流媒体,no-resolve
+IP-CIDR6,2620:120:e000::/40,🎬 流媒体,no-resolve
 DOMAIN,music.youtube.com,🎬 流媒体
 DOMAIN,e13252.dscg.akamaiedge.net,🎬 流媒体
 DOMAIN,h-netflix.online-metrix.net,🎬 流媒体
@@ -1331,10 +1331,10 @@ IP-CIDR,99.79.20.192/26,🎬 流媒体,no-resolve
 IP-CIDR,99.80.34.48/28,🎬 流媒体,no-resolve
 IP-CIDR,99.80.34.64/26,🎬 流媒体,no-resolve
 IP-CIDR,99.80.88.0/25,🎬 流媒体,no-resolve
-IP6-CIDR,2607:fb10::/32,🎬 流媒体,no-resolve
-IP6-CIDR,2620:10c:7000::/44,🎬 流媒体,no-resolve
-IP6-CIDR,2a00:86c0::/32,🎬 流媒体,no-resolve
-IP6-CIDR,2a03:5640::/32,🎬 流媒体,no-resolve
+IP-CIDR6,2607:fb10::/32,🎬 流媒体,no-resolve
+IP-CIDR6,2620:10c:7000::/44,🎬 流媒体,no-resolve
+IP-CIDR6,2a00:86c0::/32,🎬 流媒体,no-resolve
+IP-CIDR6,2a03:5640::/32,🎬 流媒体,no-resolve
 USER-AGENT,com.netflix.mediaclient,🎬 流媒体
 DOMAIN,d1v5ir2lpwr8os.cloudfront.net,🎬 流媒体
 DOMAIN,d22qjgkvxw22r6.cloudfront.net,🎬 流媒体

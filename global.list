@@ -1922,7 +1922,7 @@ IP-CIDR,96.23.20.74/32,🌍 全球代理,no-resolve
 IP-CIDR,96.23.20.78/32,🌍 全球代理,no-resolve
 IP-CIDR,96.4.63.99/32,🌍 全球代理,no-resolve
 IP-CIDR,99.81.97.56/32,🌍 全球代理,no-resolve
-IP6-CIDR,2620:100:3000::/40,🌍 全球代理,no-resolve
+IP-CIDR6,2620:100:3000::/40,🌍 全球代理,no-resolve
 USER-AGENT,com.viu.pad,🌍 全球代理
 USER-AGENT,com.viu.phone,🌍 全球代理
 USER-AGENT,com.vuclip.viu,🌍 全球代理
@@ -34149,4 +34149,4 @@ IP-CIDR,74.125.0.0/16,🌍 全球代理,no-resolve
 IP-CIDR,74.86.0.0/16,🌍 全球代理,no-resolve
 IP-CIDR,75.126.0.0/16,🌍 全球代理,no-resolve
 IP-CIDR,91.105.192.0/23,🌍 全球代理,no-resolve
-IP6-CIDR,2a0a:f280::/32,🌍 全球代理,no-resolve
+IP-CIDR6,2a0a:f280::/32,🌍 全球代理,no-resolve

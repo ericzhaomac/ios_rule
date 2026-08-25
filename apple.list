@@ -1574,9 +1574,9 @@ IP-CIDR,198.183.17.0/24,🍎 苹果服务,no-resolve
 IP-CIDR,205.180.175.0/24,🍎 苹果服务,no-resolve
 IP-CIDR,63.92.224.0/19,🍎 苹果服务,no-resolve
 IP-CIDR,65.199.22.0/23,🍎 苹果服务,no-resolve
-IP6-CIDR,2403:300::/32,🍎 苹果服务,no-resolve
-IP6-CIDR,2620:149::/32,🍎 苹果服务,no-resolve
-IP6-CIDR,2a01:b740::/32,🍎 苹果服务,no-resolve
+IP-CIDR6,2403:300::/32,🍎 苹果服务,no-resolve
+IP-CIDR6,2620:149::/32,🍎 苹果服务,no-resolve
+IP-CIDR6,2a01:b740::/32,🍎 苹果服务,no-resolve
 USER-AGENT,CoreLocationAgent,🍎 苹果服务
 USER-AGENT,WeatherWidget,🍎 苹果服务
 USER-AGENT,apsd,🍎 苹果服务
