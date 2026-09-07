@@ -5,6 +5,7 @@ DOMAIN-SUFFIX,localdomain,🎯 全球直连
 DOMAIN-SUFFIX,local,🎯 全球直连
 DOMAIN-SUFFIX,home.arpa,🎯 全球直连
 DOMAIN-SUFFIX,lan,🎯 全球直连
+DOMAIN,ttests-mac-mini.tailc2c843.ts.net,🎯 全球直连
 
 # IPv4 loopback, private, link-local, carrier-grade NAT, multicast, and reserved ranges
 IP-CIDR,0.0.0.0/8,🎯 全球直连,no-resolve
