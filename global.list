@@ -28334,6 +28334,7 @@ DOMAIN-SUFFIX,c-est-simple.com,🌍 全球代理
 DOMAIN-SUFFIX,c-span.org,🌍 全球代理
 DOMAIN-SUFFIX,c-spanvideo.org,🌍 全球代理
 DOMAIN-SUFFIX,c.gle,🌍 全球代理
+DOMAIN-SUFFIX,c.go-mpulse.net,🌍 全球代理
 DOMAIN-SUFFIX,c.mi.com,🌍 全球代理
 DOMAIN-SUFFIX,c100tibet.org,🌍 全球代理
 DOMAIN-SUFFIX,c2cx.com,🌍 全球代理
@@ -33385,6 +33386,7 @@ DOMAIN-SUFFIX,vanpeople.com,🌍 全球代理
 DOMAIN-SUFFIX,vansky.com,🌍 全球代理
 DOMAIN-SUFFIX,vaticannews.va,🌍 全球代理
 DOMAIN-SUFFIX,vatn.org,🌍 全球代理
+DOMAIN-SUFFIX,vava8.com,🌍 全球代理
 DOMAIN-SUFFIX,vbstatic.co,🌍 全球代理
 DOMAIN-SUFFIX,vcf-online.org,🌍 全球代理
 DOMAIN-SUFFIX,vcfbuilder.org,🌍 全球代理
@@ -34111,6 +34113,8 @@ IP-CIDR,125.6.149.0/24,🌍 全球代理,no-resolve
 IP-CIDR,125.6.190.0/24,🌍 全球代理,no-resolve
 IP-CIDR,129.134.0.0/17,🌍 全球代理,no-resolve
 IP-CIDR,129.226.0.0/16,🌍 全球代理,no-resolve
+IP-CIDR,13.251.24.0/24,🌍 全球代理,no-resolve
+IP-CIDR,13.251.41.0/24,🌍 全球代理,no-resolve
 IP-CIDR,13.32.0.0/15,🌍 全球代理,no-resolve
 IP-CIDR,13.35.0.0/17,🌍 全球代理,no-resolve
 IP-CIDR,14.102.250.18/31,🌍 全球代理,no-resolve
@@ -34120,6 +34124,7 @@ IP-CIDR,158.85.224.160/27,🌍 全球代理,no-resolve
 IP-CIDR,158.85.46.128/27,🌍 全球代理,no-resolve
 IP-CIDR,158.85.5.192/27,🌍 全球代理,no-resolve
 IP-CIDR,169.45.248.118/32,🌍 全球代理,no-resolve
+IP-CIDR,17.252.156.0/23,🌍 全球代理,no-resolve
 IP-CIDR,173.192.222.160/27,🌍 全球代理,no-resolve
 IP-CIDR,173.192.231.32/27,🌍 全球代理,no-resolve
 IP-CIDR,173.194.0.0/16,🌍 全球代理,no-resolve
